@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>浮動按鈕</title>
+  <style>
+    .floatBtn {
+    bottom: 3.5%;
+    max-width: 350px;
+    position: fixed;
+    right: 1%;
+    z-index: 10;
+    display: none;
+}
+.floatBtn:hover {
+    filter: brightness(1.1);
+    transition: all 0.5s ease-in-out;
+}
+.floatBtn_close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #4c4c4c80;
+    text-decoration: none;
+    width: 30px;
+    color: #fff;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: not-allowed;
+}
+.closeable {
+    cursor: pointer;
+    font-size: 3.5rem;
+}
+#wpd-post-rating{
+   display: none;
+}
+@media screen and (max-width: 468px) {
+    .floatBtn {
+        width: 60%;
+        bottom: 1%;
+        right: 1%;
+    }
+    .floatBtn_close {
+        width: 25px;
+        height: 25px;
+        font-size: 1.6rem;
+    }
+    .closeable {
+        font-size: 3rem;
+    }
+}
+  </style>
+</head>
+
+<body>
+  <script>
+    let bottomFloat_btn = document.createElement("div");
+    bottomFloat_btn.className = "floatBtn";
+
+    let btn_a = document.createElement("a");
+    btn_a.className = "floatBtn_url";
+    btn_a.setAttribute("href", "https://polypure.tw/polypure_lp");
+    btn_a.setAttribute("target", "_blank");
+
+    let btn_img = document.createElement("img");
+    btn_img.setAttribute("src", "https://jpselection.com.tw/wp-content/uploads/2024/06/240607_add_ES500.gif");
+
+    let btnClose_a = document.createElement("a");
+    btnClose_a.className = "floatBtn_close";
+    btnClose_a.setAttribute("href", "javascript:void(0)");
+
+    let x_close;
+    let x_countDown = document.createTextNode("20");
+    let timer = 20;
+
+    bottomFloat_btn.appendChild(btn_a);
+    btn_a.appendChild(btn_img);
+    bottomFloat_btn.appendChild(btnClose_a);
+    btnClose_a.appendChild(x_countDown);
+
+    document.body.appendChild(bottomFloat_btn);
+
+       function handleScroll() {
+        var winT = $("html").scrollTop();
+        if (winT > 400) {
+            $(".floatBtn").slideDown(500);
+            x_close = setInterval(close_countDown, 1000);
+            $(window).off("scroll", handleScroll);
+        }
+    }
+    $(window).on("scroll", handleScroll);
+
+    function close_countDown() {
+        setTimeout(function () {
+            timer--;
+            $(".floatBtn_close").text(timer);
+            if (timer === 0 || timer < 0) {
+                clearInterval(x_close);
+                $(".floatBtn_close").addClass("closeable");
+                $(".closeable").text("×");
+                $(".floatBtn").click(function () {
+                    $(".floatBtn").remove();
+                });
+            }
+        }, 1000);
+    }
+</script>
+
+</body>
+
+</html>
